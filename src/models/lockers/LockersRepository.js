@@ -27,7 +27,7 @@ async getLockers() {
 
   async getLockersByOucupation(occupationStatus) {
     try {
-      const locker = await this.db.manyOrNone("SELECT * FROM lokers WHERE ouccupationStatus = $1", occupationStatus);
+      const locker = await this.db.manyOrNone("SELECT * FROM lockers WHERE ouccupationStatus = $1", occupationStatus);
       return locker;
     } catch (error) {
       console.error(`Falha ao tentar descobrir a ocupação ${occupationStatus}`, error);
@@ -35,7 +35,21 @@ async getLockers() {
     }
   }
 
-    async updateLoker(id, occupationStatus, owner) {
+  async createLocker(locker) {
+    try {
+      await this.db.none(
+        "INSERT INTO lockers (occupationStatus, owner) VALUES ($1, $2)",
+        [locker.occupationStatus, locker.owner]
+      );
+
+      return locker;
+    } catch (error) {
+      console.error(`Falha ao tentar criar um armário`, error);
+    throw error;
+    }
+  }
+
+    async updateLocker(id, occupationStatus, owner) {
     try {
       const Locker = await this.getLockersById(id);
 
@@ -43,21 +57,21 @@ async getLockers() {
         return null;
       }
 
-      const updatedLoker = await this.db.one(
-        "UPDATE lokers SET occupationStatus = $1, owner = $2 WHERE id = $3 RETURNING *",
+      const updatedLocker = await this.db.one(
+        "UPDATE lockers SET occupationStatus = $1, owner = $2 WHERE id = $3 RETURNING *",
         [occupationStatus, owner, id]
       );
 
-      return updatedLoker;
+      return updatedLocker;
     } catch (error) {
       console.error(`Falha ao tentar atualizar armário${id}:`, error);
       throw error;
     }
   }
 
-  async deleteLoker(id) {
+  async deleteLocker(id) {
     try {
-      await this.db.none("DELETE FROM lokers WHERE id = $1", id);
+      await this.db.none("DELETE FROM lockers WHERE id = $1", id);
     } catch (error) {
       console.error(`Falha ao tentar deletar o armário ${id}:`, error);
       throw error;

@@ -63,9 +63,11 @@ export const createLocker = async (req, res) => {
     }
 
     const locker = new Locker(occupationStatus, owner);
-    await lockersRepository.
+    await lockersRepository.createLocker(locker);
+
+    return res.status(200).send({ message: "Armário criado com sucesso", locker });
   } catch (error) {
-    
+    return res.status(500).send({ message: "Erro ao tentar criar o armário", error: error.message });
   }
 }
 
