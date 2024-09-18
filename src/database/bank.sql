@@ -1,10 +1,10 @@
 -- Create of the gestaoSenai database
 
-CREATE DATABASE gestaoSenai;
+-- CREATE DATABASE gestaoSenai;
 
 -- Connect to the gestaoSenai database
 
-\c gestaoSenai;
+-- \c gestaoSenai;
 
 -- Create of the table students
 
