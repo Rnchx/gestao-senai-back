@@ -1,6 +1,5 @@
 export default class Locker {
-    constructor(id, occupationStatus, owner) {
-      this.id = id;
+    constructor(occupationStatus, owner) {
       this.occupationStatus = occupationStatus;
       this.owner = owner;
     }

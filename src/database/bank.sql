@@ -21,7 +21,7 @@ aapmStatus BOOLEAN NOT NULL
 -- Create of the table lockers
 
 CREATE TABLE IF NOT EXISTS lockers(
-id UNIQUE NOT NULL,
+id SERIAL PRIMARY KEY UNIQUE NOT NULL,
 occupationStatus BOOLEAN NOT NULL,
 owner VARCHAR(150) NOT NULL
 );
