@@ -35,7 +35,7 @@ export function createConnection() {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const filePath = join(__dirname, "create-tables.sql");
+const filePath = join(__dirname, "bank.sql");
 const query = new pgp.QueryFile(filePath);
 
 db.query(query);

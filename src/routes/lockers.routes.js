@@ -7,7 +7,7 @@ import {
   createLocker,
   updateLocker,
   deleteLocker
-} from "../controller/lockers.controller";
+} from "../controller/lockers.controller.js";
 
 const lockersRouter = Router();
 

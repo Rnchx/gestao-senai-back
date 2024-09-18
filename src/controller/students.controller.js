@@ -1,7 +1,15 @@
-import Student from "../models/students/Student";
-import StudentsRepository from "../models/students/StudentsRepository";
+import Student from "../models/students/Student.js";
+import StudentsRepository from "../models/students/StudentsRepository.js";
 
 const studentsRepository = new StudentsRepository();
+
+function verifyUrl(url) {
+  var imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+
+  var extension = url.split('.').pop().toLowerCase();
+
+  return imageExtensions.includes(extension);
+}
 
 export const getStudents = async (req, res) => {
     try {
@@ -114,9 +122,22 @@ export const getStudentsByAge = async (req, res) => {
 
 export const createStudent = async (req, res) => {
     try {
-        const student = new Student(req.body);
-        const newStudent = await studentsRepository.createStudent(student);
-        return res.status(201).send(newStudent);
+
+        const { name, dateOfBirth, studentClass, courseType, carometer, aapmStatus, internshipStatus } = req.body;
+
+        if (name == "" || dateOfBirth == "" || studentClass == "" || courseType == "" || carometer == "" || aapmStatus == "" || internshipStatus == "") {
+             return res.status(400).send({ message: "Preencha todos os campos" });
+        }
+
+        if (!verifyUrl(carometer)) {
+            return res.status(400).send({ message: "URL da imagem inválida" });
+        }
+
+        const student = new Student(name, dateOfBirth, studentClass, courseType, carometer, aapmStatus, internshipStatus);
+
+         await studentsRepository.createStudent(student);
+
+        return res.status(201).send({ message: "Studante cadastrado com sucesso"  });
     } catch (error) {
         return res.status(500).send({ message: `Erro ao criar aluno`, error: error.message });
     }

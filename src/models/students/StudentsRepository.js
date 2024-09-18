@@ -67,7 +67,7 @@ async getStudents() {
 
   async getStudentsByInternshipStatus(internshipStatus) {
     try {
-      const student = await this.db.ManyOrNone("SELECT * FROM students WHERE internshipStatus = $1", internshipStatus);
+      const student = await this.db.manyOrNone("SELECT * FROM students WHERE internshipStatus = $1", internshipStatus);
       return student;
     } catch (error) {
       console.error(`Falha ao tentar buscar os alunos que ${internshipStatus} estão disponíveis para estágio`, error);
@@ -77,9 +77,9 @@ async getStudents() {
 
 async getStudentsByAge(dateOfBirth) {
     try {
-      const calculateAge = (birthDate) => {
+      const calculateAge = (dateBirth) => {
         const today = new Date();
-        const birthDay = new Date(birthDate);
+        const birthDay = new Date(dateBirth);
         
         let age = today.getFullYear() - birthDay.getFullYear();
         
@@ -108,8 +108,8 @@ async getStudentsByAge(dateOfBirth) {
    async createStudent(student) {
     try {
       await this.db.none(
-        "INSERT INTO students (name, dateOfBirth, room, courseType, carometer, aapmStatus, internshipStatus) VALUES ($1, $2, $3, $4, $5, $6, $7)",
-        [student.name, student.dateOfBirth, student.room, student.courseType, student.carometer, student.aapmStatus, student.internshipStatus]
+        "INSERT INTO students (name, dateOfBirth, studentClass, courseType, carometer, aapmStatus, internshipStatus) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+        [student.name, student.dateOfBirth, student.studentClass, student.courseType, student.carometer, student.aapmStatus, student.internshipStatus]
       );
       return student;
     } catch (error) {
