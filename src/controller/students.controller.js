@@ -106,20 +106,6 @@ export const getStudentsByInternshipStatus = async (req, res) => {
     }
 };
 
-export const getStudentsByAge = async (req, res) => {
-    try {
-        const { age } = req.params;
-        const student = await studentsRepository.getStudentsByAge(age);
-
-        if (!student) {
-            return res.status(404).send({ message: `Aluno não encontrado` });
-        }
-        return res.status(200).send(student);
-    } catch (error) {
-        return res.status(500).send({ message: `Erro ao buscar aluno`, error: error.message });
-    }
-};
-
 export const createStudent = async (req, res) => {
     try {
 
@@ -137,7 +123,7 @@ export const createStudent = async (req, res) => {
 
          await studentsRepository.createStudent(student);
 
-        return res.status(201).send({ message: "Studante cadastrado com sucesso"  });
+        return res.status(201).send({ message: "Estudante cadastrado com sucesso"  });
     } catch (error) {
         return res.status(500).send({ message: `Erro ao criar aluno`, error: error.message });
     }
@@ -147,6 +133,8 @@ export const updateStudent = async (req, res) => {
     try {
         const { id } = req.params;
         const student = new Student(req.body);
+        console.log(student);
+        
         const updatedStudent = await studentsRepository.updateStudent(id, student);
         return res.status(200).send(updatedStudent);
     } catch (error) {
@@ -158,7 +146,7 @@ export const deleteStudent = async (req, res) => {
     try {
         const { id } = req.params;
         await studentsRepository.deleteStudent(id);
-        return res.status(204).send();
+        return res.status(204).send({ message: `Aluno ${id} deletado com sucesso`});
     } catch (error) {
         return res.status(500).send({ message: `Erro ao deletar aluno`, error: error.message });
     }

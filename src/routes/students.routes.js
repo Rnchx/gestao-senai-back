@@ -4,7 +4,6 @@ import {
   getStudents,
   getStudentsById,
   getStudentsByName,
-  getStudentsByAge,
   getStudentsByAapmStatus,
   getStudentsByCourseType,
   getStudentsByInternshipStatus,
@@ -19,7 +18,6 @@ const studentsRouter = Router();
 studentsRouter.get("/", getStudents);
 studentsRouter.get("/:id", getStudentsById);
 studentsRouter.get("/name/:name", getStudentsByName);
-studentsRouter.get("/age/:age", getStudentsByAge);
 studentsRouter.get("/aapmStatus/:aapmStatus", getStudentsByAapmStatus);
 studentsRouter.get("/courseType/:courseType", getStudentsByCourseType);
 studentsRouter.get("/internshipStatus/:internshipStatus", getStudentsByInternshipStatus);

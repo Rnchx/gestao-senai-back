@@ -37,7 +37,7 @@ async getStudents() {
 
    async getStudentsByStudentClass(studentClass) {
     try {
-      const student = await this.db.ManyOrNone("SELECT * FROM students WHERE studentClass = $1", studentClass);
+      const student = await this.db.manyOrNone("SELECT * FROM students WHERE studentClass = $1", studentClass);
       return student;
     } catch (error) {
       console.error(`Falha ao tentar buscar os alunos da sala ${studentClass}`, error);
@@ -47,7 +47,7 @@ async getStudents() {
 
   async getStudentsByCourseType(courseType) {
     try {
-      const student = await this.db.ManyOrNone("SELECT * FROM students WHERE courseType = $1", courseType);
+      const student = await this.db.manyOrNone("SELECT * FROM students WHERE courseType = $1", courseType);
       return student;
     } catch (error) {
       console.error(`Falha ao tentar buscar os alunos do ${courseType}`, error);
@@ -57,7 +57,7 @@ async getStudents() {
 
   async getStudentsByAapmStatus(aapmStatus) {
     try {
-      const student = await this.db.ManyOrNone("SELECT * FROM students WHERE aapmStatus = $1", aapmStatus);
+      const student = await this.db.manyOrNone("SELECT * FROM students WHERE aapmStatus = $1", aapmStatus);
       return student;
     } catch (error) {
       console.error(`Falha ao tentar buscar os alunos que ${aapmStatus} participam na AAPM`, error);
@@ -72,36 +72,6 @@ async getStudents() {
     } catch (error) {
       console.error(`Falha ao tentar buscar os alunos que ${internshipStatus} estão disponíveis para estágio`, error);
     throw error;
-    }
-  }
-
-async getStudentsByAge(dateOfBirth) {
-    try {
-      const calculateAge = (dateBirth) => {
-        const today = new Date();
-        const birthDay = new Date(dateBirth);
-        
-        let age = today.getFullYear() - birthDay.getFullYear();
-        
-        const monthDiff = today.getMonth() - birthDay.getMonth();
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDay.getDate())) {
-          age--;
-        }
-        
-        return age;
-      };
-
-      const age = calculateAge(dateOfBirth);
-      
-      const students = await this.db.manyOrNone(
-        "SELECT * FROM students WHERE DATE_PART('year', age) = $1",
-        age
-      );
-
-      return students;
-    } catch (error) {
-      console.error(`Falha ao tentar buscar os alunos com idade ${dateOfBirth}`, error);
-      throw error;
     }
   }
 

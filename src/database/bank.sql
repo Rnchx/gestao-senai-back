@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS students(
     dateOfBirth VARCHAR(10) NOT NULL,
     studentClass VARCHAR(50) NOT NULL,
     courseType VARCHAR(100) NOT NULL,
-    carometer VARCHAR(500) NOT NULL,
+    carometer TEXT NOT NULL,
     aapmStatus BOOLEAN NOT NULL,
     internshipStatus BOOLEAN NOT NULL
 );
