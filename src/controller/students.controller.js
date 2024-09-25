@@ -132,11 +132,12 @@ export const createStudent = async (req, res) => {
 export const updateStudent = async (req, res) => {
     try {
         const { id } = req.params;
-        const student = new Student(req.body);
+        const { name, dateOfBirth, studentClass, courseType, carometer, aapmStatus, internshipStatus } = req.body;
+        const student = new Student(name, dateOfBirth, studentClass, courseType, carometer, aapmStatus, internshipStatus);
         console.log(student);
         
-        const updatedStudent = await studentsRepository.updateStudent(id, student);
-        return res.status(200).send(updatedStudent);
+        const updatedStudent = await studentsRepository.updateStudent(id, name, dateOfBirth, studentClass, courseType, carometer, aapmStatus, internshipStatus);
+        return res.status(200).send({ message: "Aluno atualizado com sucesso" });
     } catch (error) {
         return res.status(500).send({ message: `Erro ao atualizar aluno`, error: error.message });
     }
@@ -146,7 +147,7 @@ export const deleteStudent = async (req, res) => {
     try {
         const { id } = req.params;
         await studentsRepository.deleteStudent(id);
-        return res.status(204).send({ message: `Aluno ${id} deletado com sucesso`});
+        return res.status(200).send({ message: "Aluno deletado com sucesso" });
     } catch (error) {
         return res.status(500).send({ message: `Erro ao deletar aluno`, error: error.message });
     }

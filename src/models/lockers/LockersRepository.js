@@ -1,3 +1,4 @@
+
 import db from "../../database/index.js"
 
 export default class LockersRepository {
@@ -5,14 +6,14 @@ export default class LockersRepository {
     this.db = db;
   }
 
-async getLockers() {
-  try {
-    const allLockers = await this.db.manyOrNone("SELECT * FROM lockers");
-    return allLockers;
-  } catch (error) {
-    console.error("Falha ao tentar buscar os armários", error);
-    throw error;
-  }
+  async getLockers() {
+    try {
+      const allLockers = await this.db.manyOrNone("SELECT * FROM lockers");
+      return allLockers;
+    } catch (error) {
+      console.error("Falha ao tentar buscar os armários", error);
+      throw error;
+    }
   }
 
   async getLockersById(id) {
@@ -21,17 +22,17 @@ async getLockers() {
       return locker;
     } catch (error) {
       console.error(`Falha ao tentar buscar o armário ${id}`, error);
-    throw error;
+      throw error;
     }
   }
 
-  async getLockersByOucupation(occupationStatus) {
+  async getLockersByOccupation(occupationStatus) {
     try {
-      const locker = await this.db.manyOrNone("SELECT * FROM lockers WHERE ouccupationStatus = $1", occupationStatus);
+      const locker = await this.db.manyOrNone("SELECT * FROM lockers WHERE occupationStatus = $1", occupationStatus);
       return locker;
     } catch (error) {
       console.error(`Falha ao tentar descobrir a ocupação ${occupationStatus}`, error);
-    throw error;
+      throw error;
     }
   }
 
@@ -45,11 +46,11 @@ async getLockers() {
       return locker;
     } catch (error) {
       console.error(`Falha ao tentar criar um armário`, error);
-    throw error;
+      throw error;
     }
   }
 
-    async updateLocker(id, occupationStatus, owner) {
+  async updateLocker(id, occupationStatus, owner) {
     try {
       const Locker = await this.getLockersById(id);
 
@@ -77,4 +78,5 @@ async getLockers() {
       throw error;
     }
   }
-  }
+}
+

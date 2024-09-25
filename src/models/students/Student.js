@@ -1,3 +1,4 @@
+
 export default class Student {
   constructor(name, dateOfBirth, studentClass, courseType, carometer, aapmStatus, internshipStatus) {
     this.name = name;
