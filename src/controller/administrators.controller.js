@@ -1,4 +1,4 @@
-import Administrator from '../models/administrators/Administrators.js';
+import Administrator from '../models/administrators/Administrator.js';
 
 import AdministratorsRepository from '../models/administrators/AdministratorsRepository.js';
 
@@ -37,6 +37,9 @@ export const getAdministratorByCpf = async (req, res) => {
     try {
         const { cpf } = req.params;
         const administrator = await administratorsRepository.getAdministratorByCpf(cpf);
+        if (!administrator) {
+            return res(404).send({ message: `Administrador do cpf ${cpf} não encontrado`})
+        }
     
         return res.status(200).send({ message: 'Administrador encontrado', administrator });
     } catch (error) {

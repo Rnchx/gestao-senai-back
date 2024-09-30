@@ -7,7 +7,7 @@ import {
     createAdministrator,
     updateAdministrator,
     deleteAdministrator
-    } from "../controller/administrator.controller.js";
+    } from "../controller/administrators.controller.js";
 
 const administratorsRouter = Router();
 
