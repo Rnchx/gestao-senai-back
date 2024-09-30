@@ -54,7 +54,7 @@ async getLockers() {
       throw error;
     }
   }
-
+  
   async deleteLocker(id) {
     try {
       await this.db.none("DELETE FROM lockers WHERE id = $1", id);
