@@ -1,7 +1,15 @@
-import Student from "../models/students/Student";
-import StudentsRepository from "../models/students/StudentsRepository";
+import Student from "../models/students/Student.js";
+import StudentsRepository from "../models/students/StudentsRepository.js";
 
 const studentsRepository = new StudentsRepository();
+
+function verifyUrl(url) {
+  var imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+
+  var extension = url.split('.').pop().toLowerCase();
+
+  return imageExtensions.includes(extension);
+}
 
 export const getStudents = async (req, res) => {
     try {
@@ -98,25 +106,24 @@ export const getStudentsByInternshipStatus = async (req, res) => {
     }
 };
 
-export const getStudentsByAge = async (req, res) => {
-    try {
-        const { age } = req.params;
-        const student = await studentsRepository.getStudentsByAge(age);
-
-        if (!student) {
-            return res.status(404).send({ message: `Aluno não encontrado` });
-        }
-        return res.status(200).send(student);
-    } catch (error) {
-        return res.status(500).send({ message: `Erro ao buscar aluno`, error: error.message });
-    }
-};
-
 export const createStudent = async (req, res) => {
     try {
-        const student = new Student(req.body);
-        const newStudent = await studentsRepository.createStudent(student);
-        return res.status(201).send(newStudent);
+
+        const { name, dateOfBirth, studentClass, courseType, carometer, aapmStatus, internshipStatus } = req.body;
+
+        if (name == "" || dateOfBirth == "" || studentClass == "" || courseType == "" || carometer == "" || aapmStatus == "" || internshipStatus == "") {
+             return res.status(400).send({ message: "Preencha todos os campos" });
+        }
+
+        if (!verifyUrl(carometer)) {
+            return res.status(400).send({ message: "URL da imagem inválida" });
+        }
+
+        const student = new Student(name, dateOfBirth, studentClass, courseType, carometer, aapmStatus, internshipStatus);
+
+         await studentsRepository.createStudent(student);
+
+        return res.status(201).send({ message: "Estudante cadastrado com sucesso"  });
     } catch (error) {
         return res.status(500).send({ message: `Erro ao criar aluno`, error: error.message });
     }
@@ -125,9 +132,12 @@ export const createStudent = async (req, res) => {
 export const updateStudent = async (req, res) => {
     try {
         const { id } = req.params;
-        const student = new Student(req.body);
-        const updatedStudent = await studentsRepository.updateStudent(id, student);
-        return res.status(200).send(updatedStudent);
+        const { name, dateOfBirth, studentClass, courseType, carometer, aapmStatus, internshipStatus } = req.body;
+        const student = new Student(name, dateOfBirth, studentClass, courseType, carometer, aapmStatus, internshipStatus);
+        console.log(student);
+        
+        const updatedStudent = await studentsRepository.updateStudent(id, name, dateOfBirth, studentClass, courseType, carometer, aapmStatus, internshipStatus);
+        return res.status(200).send({ message: "Aluno atualizado com sucesso" });
     } catch (error) {
         return res.status(500).send({ message: `Erro ao atualizar aluno`, error: error.message });
     }
@@ -137,7 +147,7 @@ export const deleteStudent = async (req, res) => {
     try {
         const { id } = req.params;
         await studentsRepository.deleteStudent(id);
-        return res.status(204).send();
+        return res.status(200).send({ message: "Aluno deletado com sucesso" });
     } catch (error) {
         return res.status(500).send({ message: `Erro ao deletar aluno`, error: error.message });
     }

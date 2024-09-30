@@ -1,7 +1,7 @@
+
 export default class Locker {
-    constructor(id, occupationStatus, owner) {
-      this.id = id;
-      this.occupationStatus = occupationStatus;
-      this.owner = owner;
-    }
+  constructor(occupationStatus, owner) {
+    this.occupationStatus = occupationStatus;
+    this.owner = owner;
   }
+}
