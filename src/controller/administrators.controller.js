@@ -2,8 +2,7 @@ import Administrator from '../models/administrators/Administrator.js';
 
 import AdministratorsRepository from '../models/administrators/AdministratorsRepository.js';
 
-import pkg from 'bcryptjs';
-const { hash } = pkg;
+import bcrypt from 'bcryptjs';
 
 const administratorsRepository = new AdministratorsRepository();
 
@@ -72,7 +71,7 @@ export const createAdministrator = async (req, res) => {
             return res.status(400).send({ message: 'A senha deve conter entre 3 e 10 caracteres' });
         }
         
-        const bcryptPassword = await hash(password, 8);
+        const bcryptPassword = await bcrypt.hash(password, 8);
         const administrator = new Administrator(cpf, bcryptPassword);
         await administratorsRepository.createAdministrator(administrator);
     
