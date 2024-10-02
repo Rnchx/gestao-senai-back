@@ -34,7 +34,7 @@ async getAdministratorByCpf(cpf) {
         console.error(`Falha ao tentar buscar o administrador ${cpf}`, error);
         throw error;
     }
-}
+    }
 
 async createAdministrator(administrator) {
     try {
