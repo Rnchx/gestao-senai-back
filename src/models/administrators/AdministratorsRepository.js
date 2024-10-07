@@ -28,12 +28,13 @@ async getAdministratorById(id) {
 async getAdministratorByCpf(cpf) {
     try {
         const administrator = await this.db.oneOrNone("SELECT * FROM administrators WHERE cpf = $1", cpf);
+        console.log(administrator);
         return administrator;
     } catch (error) {
         console.error(`Falha ao tentar buscar o administrador ${cpf}`, error);
         throw error;
     }
-}
+    }
 
 async createAdministrator(administrator) {
     try {

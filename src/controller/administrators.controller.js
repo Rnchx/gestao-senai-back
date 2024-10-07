@@ -1,6 +1,8 @@
-import Administrator from '../models/administrators/Administrators.js';
+import Administrator from '../models/administrators/Administrator.js';
 
 import AdministratorsRepository from '../models/administrators/AdministratorsRepository.js';
+
+import bcrypt from 'bcryptjs';
 
 const administratorsRepository = new AdministratorsRepository();
 
@@ -37,6 +39,9 @@ export const getAdministratorByCpf = async (req, res) => {
     try {
         const { cpf } = req.params;
         const administrator = await administratorsRepository.getAdministratorByCpf(cpf);
+        if (!administrator) {
+            return res(404).send({ message: `Administrador do cpf ${cpf} não encontrado`})
+        }
     
         return res.status(200).send({ message: 'Administrador encontrado', administrator });
     } catch (error) {
@@ -48,15 +53,26 @@ export const createAdministrator = async (req, res) => {
     try {
         const { cpf, password } = req.body;
     
-        if (!cpf || !password) {
+        if (!cpf) {
         return res.status(400).send({ message: 'Preencha todos os campos obrigatórios' });
         }
+    
+        const existingAdmin = await administratorsRepository.getAdministratorByCpf(cpf);
 
+        if (existingAdmin) {
+            return res.status(400).send({ message: 'Esse CPF já está cadastrado no sistema' });
+        }
+
+        if (cpf.length > 11) {
+        return res.status(400).send({ message: 'O CPF inserido tem mais de 11 caracteres' });
+        }   
+        
         if (password == "" || password.length < 3 || password.length > 10) {
             return res.status(400).send({ message: 'A senha deve conter entre 3 e 10 caracteres' });
         }
-    
-        const administrator = new Administrator(cpf, password);
+        
+        const bcryptPassword = await bcrypt.hash(password, 8);
+        const administrator = new Administrator(cpf, bcryptPassword);
         await administratorsRepository.createAdministrator(administrator);
     
         return res.status(201).send({ message: 'Administrador criado com sucesso', administrator });
