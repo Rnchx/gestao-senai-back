@@ -64,5 +64,58 @@ export default class LockersRepository {
       throw error;
     }
   }
+
+  async assignStudentToLocker (lockerId, studentName) {
+    try{
+      const locker= await this.db.oneOrNone("SELECT * FROM lockers WHERE id = $1 AND occupationStatus = 'vago'", lockerId);
+
+      if (!locker) {
+        throw new Error("Armário não está vago");
+      }
+
+      const updatedLocker = await this.db.one(
+        "UPDATE lockers SET occupationStatus = 'ocupado', owner = $1 WHERE id = $2 RETURNING *",
+        [studentName, lockerId]
+      );
+
+      return {
+        success: true,
+        locker: updatedLocker,
+        message: `${studentName} foi atribuido ao armário ${lockerId}`
+      };
+    }catch (error) {
+      console.error(`Erro ao atribuir estudante ao armário ${lockerId}:`, error);
+      throw error;
+    }
+  }
+
+  async unassignStudentFromLocker (lockerId) {
+    try{
+      const updatedLocker = await this.db.one(
+        "UPDATE lockers SET occupationsStatus = 'vago', owner = NULL WHERE id = $1 RETURNING *",
+        [lockerId]
+      );
+
+      return {
+        success: true,
+        locker: updatedLocker,
+        message: `O armário ${lockerId} foi desocupado`
+      };
+    } catch (error) {
+      console.error(`Erro ao desocupar o armário ${lockerId}:`, error);
+      throw error;
+    }
+  }
+
+  async getLockerInfo(lockerId){
+    try{
+      const locker = await this.db.oneOrNone(" SELECT * FROM lockers WHERE id = $1", lockerId);
+      return locker;
+    }catch (error) {
+      console.error(`Erro ao obter informações do armário ${lockerId}:`, error);
+      throw error;
+    }
+  }
 }
 
+  
