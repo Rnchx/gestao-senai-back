@@ -80,7 +80,7 @@ import Locker from "../models/lockers/Locker.js"
         return res.status(400).send({ message: "Preencha o campo de ocupação do armário" });
       }
 
-      const updateLocker = await lockersRepository.updateLocker(id, occupationStatus, owner);
+      const updateLocker = await lockersRepository.updateLoker(id, occupationStatus, owner);
 
       return res.status(200).send({ message: "Armário atualizado com sucesos", updateLocker });
     } catch (error) {

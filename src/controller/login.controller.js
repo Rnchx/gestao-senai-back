@@ -8,7 +8,6 @@ import jwt from 'jsonwebtoken';
 
 const authConfig = process.env.JWT_SECRET
 
-
 export const login = async (req, res) => {
     try {
       const { cpf, password } = req.body;
