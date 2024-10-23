@@ -102,43 +102,13 @@ export const deleteLocker = async (req, res) => {
   }
 
 }
-
-<<<<<<< HEAD
-      if (!lockerById) {
-        return res.status(404).send({ message: "Armário não encontrado" });
-      }
-
-      if (occupationStatus == "") {
-        return res.status(400).send({ message: "Preencha o campo de ocupação do armário" });
-      }
-
-      const updateLocker = await lockersRepository.updateLoker(id, occupationStatus, owner);
-
-      return res.status(200).send({ message: "Armário atualizado com sucesos", updateLocker });
-    } catch (error) {
-      return res.status(500).send({ message: "Erro ao tentar atualizar o armário", error: error.message });
-    }
-  };
-
-  export const deleteLocker = async (req, res) => {
-    try {
-      const { id } = req.params;
-      
-      await lockersRepository.deleteLocker(id);
-      return res.status(200).send({ message: "Armário deletado com sucesso" });
-    } catch (error) {
-      return res
-        .status(500)
-        .send({ message: "Erro ao tentar deletar o armário", error: error.message });
-    }
-=======
 export const assignStudentToLocker = async (req, res) => {
   try {
     const result = await lockersRepository.assignStudentToLocker(req.params.id, req.body.studentName);
     res.status(200).json(result);
   } catch (error) {
     res.status(400).json({ error: error.message });
->>>>>>> bb4258f0930026033a31545aba56d31ad546eb94
+
   }
 };
 
