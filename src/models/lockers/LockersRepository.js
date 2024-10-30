@@ -105,7 +105,7 @@ export default class LockersRepository {
   async unassignStudentFromLocker (lockerId) {
     try{
       const updatedLocker = await this.db.one(
-        "UPDATE lockers SET occupationsStatus = 'vago', owner = NULL WHERE id = $1 RETURNING *",
+        "UPDATE lockers SET occupationStatus = 'vago', owner = NULL WHERE id = $1 RETURNING *",
         [lockerId]
       );
 
