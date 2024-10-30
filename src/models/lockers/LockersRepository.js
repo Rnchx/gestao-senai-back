@@ -36,6 +36,19 @@ export default class LockersRepository {
     }
   }
 
+  async createLocker(locker) {
+    try {
+      await this.db.none(
+            "INSERT INTO lockers (occupationStatus, owner) VALUES ($1, $2)",
+            [locker.occupationStatus, locker.owner]
+      );
+      return locker
+    } catch (error) {
+      console.error(`Falha ao tentar cadastrar um armário`, error);
+        throw error;
+    }
+  }
+
     async updateLoker(id, occupationStatus, owner) {
     try {
       const Locker = await this.getLockersById(id);
