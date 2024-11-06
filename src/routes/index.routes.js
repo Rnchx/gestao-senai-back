@@ -11,14 +11,14 @@ router.get("/", (req, res) => {
   res.status(200).send({ message: "Servidor rodando perfeitamente!" });
 });
 
-// router.use("/students", errorMiddleware, studentsRouter);
-// router.use("/lockers", errorMiddleware, lockersRouter);
-// router.use("/administrators", errorMiddleware, administratorsRouter);
-// router.use("/login", loginRouter);
-
-router.use("/students", studentsRouter);
-router.use("/lockers", lockersRouter);
-router.use("/administrators", administratorsRouter);
+router.use("/students", errorMiddleware, studentsRouter);
+router.use("/lockers", errorMiddleware, lockersRouter);
+router.use("/administrators", errorMiddleware, administratorsRouter);
 router.use("/login", loginRouter);
+
+// router.use("/students", studentsRouter);
+// router.use("/lockers", lockersRouter);
+// router.use("/administrators", administratorsRouter);
+// router.use("/login", loginRouter);
 
 export { router };
