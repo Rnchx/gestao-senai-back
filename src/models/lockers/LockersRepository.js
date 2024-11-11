@@ -78,47 +78,49 @@ export default class LockersRepository {
     }
   }
 
-  async assignStudentToLocker(lockerId, studentName) {
+  async assignStudentToLocker(id, owner) {
+    console.log('owner:', owner);
+
     try {
       const locker = await this.db.oneOrNone(
-        "SELECT * FROM lockers WHERE id = $1 AND occupationStatus = 'vago'",
-        lockerId
+        "SELECT * FROM lockers WHERE id = $1 AND occupationStatus = true",
+        [id]
       );
   
       if (!locker) {
-        throw new Error("Armário não está vago");
+        throw new Error("Armário ocupado");
       }
   
       const updatedLocker = await this.db.one(
-        "UPDATE lockers SET occupationStatus = 'ocupado', owner = $1 WHERE id = $2 RETURNING *",
-        [studentName, lockerId]
+        "UPDATE lockers SET occupationStatus = false, owner = $1 WHERE id = $2 RETURNING *",
+        [owner, id]
       );
   
       return {
         success: true,
         locker: updatedLocker,
-        message: `${studentName} foi atribuido ao armário ${lockerId}`,
+        message: `${owner} foi atribuído ao armário ${id}`,
       };
     } catch (error) {
-      console.error(`Erro ao atribuir estudante ao armário ${lockerId}:`, error);
+      console.error(`Erro ao atribuir estudante ao armário ${id}:`, error);
       throw error;
     }
   }
 
-  async unassignStudentFromLocker (lockerId) {
+  async unassignStudentFromLocker (id) {
     try{
       const updatedLocker = await this.db.one(
-        "UPDATE lockers SET occupationStatus = 'vago', owner = NULL WHERE id = $1 RETURNING *",
-        [lockerId]
+        "UPDATE lockers SET occupationStatus = false, owner = NULL WHERE id = $1 RETURNING *",
+        [id]
       );
 
       return {
         success: true,
         locker: updatedLocker,
-        message: `O armário ${lockerId} foi desocupado`
+        message: `O armário ${id} foi desocupado`
       };
     } catch (error) {
-      console.error(`Erro ao desocupar o armário ${lockerId}:`, error);
+      console.error(`Erro ao desocupar o armário ${id}:`, error);
       throw error;
     }
   }

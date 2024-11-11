@@ -80,7 +80,7 @@ export const updateLocker = async (req, res) => {
       return res.status(400).send({ message: "Preencha o campo de ocupação do armário" });
     }
 
-    const updateLocker = await lockersRepository.updateLocker(id, occupationStatus, owner);
+    const updateLocker = await lockersRepository.updateLoker(id, occupationStatus, owner);
 
     return res.status(200).send({ message: "Armário atualizado com sucesos", updateLocker });
   } catch (error) {
@@ -92,7 +92,7 @@ export const deleteLocker = async (req, res) => {
   try {
     const { id } = req.params;
 
-    await lockersRepository.deleteLocker(id);
+    await lockersRepository.deleteLoker(id);
     return res.status(200).send({ message: "Armário deletado com sucesso" });
   } catch (error) {
     return res
@@ -102,12 +102,13 @@ export const deleteLocker = async (req, res) => {
   }
 
 }
+
 export const assignStudentToLocker = async (req, res) => {
   try {
-    const result = await lockersRepository.assignStudentToLocker(
-      req.params.id,
-      req.body.studentName
-    );
+    const { id } = req.params;
+    const { owner } = req.body;
+
+    const result = await lockersRepository.assignStudentToLocker(id, owner);
     res.status(200).json(result);
   } catch (error) {
     res.status(400).json({ error: error.message });
