@@ -21,7 +21,7 @@ lockersRouter.get("/occupation/:occupation", getLockersByOccupation);
 lockersRouter.post("/", createLocker);
 lockersRouter.put("/:id", updateLocker);
 lockersRouter.delete("/:id", deleteLocker);
-lockersRouter.get("/:id", assignStudentToLocker);
+lockersRouter.post("/:id/assign", assignStudentToLocker);
 lockersRouter.put("/:id", unassignStudentFromLocker);
 lockersRouter.get("/:id", getLockerInfo)
 

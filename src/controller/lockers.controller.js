@@ -6,13 +6,13 @@ const lockersRepository = new LockersRepository();
 
 export const getLockers = async (req, res) => {
   try {
-    const lockers = await lockersRepository.getLockers();
-    if (!lockers || lockers.length == 0) {
-      return res.status(404).send({ message: "Não há armários cadastrados" });
+    const allLockers = await lockersRepository.getLockers();
+    if (!allLockers || allLockers.length === 0) {
+      return res.status(404).json({ message: 'Não há armários cadastrados' });
     }
-    return res.status(200).send({ totalLockers: lockers.length, lockers });
+    return res.status(200).json({ lockers: allLockers });
   } catch (error) {
-    return res.status(500).send({ message: "Erro ao tentar buscar os armários", error: error.message });
+    return res.status(500).json({ message: 'Erro ao tentar buscar os armários', error: error.message });
   }
 };
 
@@ -104,11 +104,13 @@ export const deleteLocker = async (req, res) => {
 }
 export const assignStudentToLocker = async (req, res) => {
   try {
-    const result = await lockersRepository.assignStudentToLocker(req.params.id, req.body.studentName);
+    const result = await lockersRepository.assignStudentToLocker(
+      req.params.id,
+      req.body.studentName
+    );
     res.status(200).json(result);
   } catch (error) {
     res.status(400).json({ error: error.message });
-
   }
 };
 

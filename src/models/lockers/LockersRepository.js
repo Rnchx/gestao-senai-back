@@ -78,25 +78,28 @@ export default class LockersRepository {
     }
   }
 
-  async assignStudentToLocker (lockerId, studentName) {
-    try{
-      const locker= await this.db.oneOrNone("SELECT * FROM lockers WHERE id = $1 AND occupationStatus = 'vago'", lockerId);
-
+  async assignStudentToLocker(lockerId, studentName) {
+    try {
+      const locker = await this.db.oneOrNone(
+        "SELECT * FROM lockers WHERE id = $1 AND occupationStatus = 'vago'",
+        lockerId
+      );
+  
       if (!locker) {
         throw new Error("Armário não está vago");
       }
-
+  
       const updatedLocker = await this.db.one(
         "UPDATE lockers SET occupationStatus = 'ocupado', owner = $1 WHERE id = $2 RETURNING *",
         [studentName, lockerId]
       );
-
+  
       return {
         success: true,
         locker: updatedLocker,
-        message: `${studentName} foi atribuido ao armário ${lockerId}`
+        message: `${studentName} foi atribuido ao armário ${lockerId}`,
       };
-    }catch (error) {
+    } catch (error) {
       console.error(`Erro ao atribuir estudante ao armário ${lockerId}:`, error);
       throw error;
     }
