@@ -67,7 +67,7 @@ export const createAdministrator = async (req, res) => {
         return res.status(400).send({ message: 'O CPF inserido tem mais de 11 caracteres' });
         }   
         
-        if (password == "" || password.length < 3 || password.length > 10) {
+        if (password == "" || password.length < 3 || password.length > 20) {
             return res.status(400).send({ message: 'A senha deve conter entre 3 e 10 caracteres' });
         }
         
