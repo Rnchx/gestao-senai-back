@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:3000' // Permite apenas esse domínio
+  origin: process.env.NEXT_PUBLIC_FRONTEND
 }));
 
 app.use(express.json());

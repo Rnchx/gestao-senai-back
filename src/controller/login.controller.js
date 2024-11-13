@@ -25,8 +25,6 @@ export const login = async (req, res) => {
       const token = jwt.sign({ id: searchAdministrators.id }, authConfig, {
         expiresIn: 1209600
       })
-
-      console.log(token);
       
       return res.status(200).send({ message: "login efetuado com sucesso", searchAdministrators, token });
       
