@@ -22,7 +22,7 @@ lockersRouter.post("/", createLocker);
 lockersRouter.put("/:id", updateLocker);
 lockersRouter.delete("/:id", deleteLocker);
 lockersRouter.post("/:id/assign", assignStudentToLocker);
-lockersRouter.put("/:id", unassignStudentFromLocker);
+lockersRouter.put("/:id/unassign", unassignStudentFromLocker);
 lockersRouter.get("/:id", getLockerInfo)
 
 export default lockersRouter;
