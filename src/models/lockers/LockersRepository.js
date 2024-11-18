@@ -81,7 +81,7 @@ export default class LockersRepository {
     try {
       // Atribui o aluno ao armário, usando o ID do aluno como referência
       const updatedLocker = await this.db.one(
-        "UPDATE lockers SET occupationStatus = false, owner_id = $1 WHERE id = $2 RETURNING *",
+        "UPDATE lockers SET occupationStatus = false, id = $1 WHERE id = $2 RETURNING *",
         [studentId, id]
       );
 
@@ -100,7 +100,7 @@ export default class LockersRepository {
     try {
       // Desassocia o aluno do armário, removendo o `owner_id`
       const updatedLocker = await this.db.one(
-        "UPDATE lockers SET occupationStatus = true, owner_id = NULL WHERE id = $1 RETURNING *",
+        "UPDATE lockers SET occupationStatus = true, id = NULL WHERE id = $1 RETURNING *",
         [id]
       );
 
