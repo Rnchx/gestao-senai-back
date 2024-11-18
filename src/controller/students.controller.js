@@ -115,9 +115,9 @@ export const createStudent = async (req, res) => {
              return res.status(400).send({ message: "Preencha todos os campos" });
         }
 
-        if (!verifyUrl(carometer)) {
-            return res.status(400).send({ message: "URL da imagem inválida" });
-        }
+        // if (!verifyUrl(carometer)) {
+        //     return res.status(400).send({ message: "URL da imagem inválida" });
+        // }
 
         const student = new Student(name, dateOfBirth, studentClass, courseType, carometer, aapmStatus, internshipStatus);
 
