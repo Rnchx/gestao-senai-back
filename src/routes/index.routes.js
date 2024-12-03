@@ -28,6 +28,8 @@ router.use("/lockers", errorMiddleware, lockersRouter);
 router.use("/administrators", errorMiddleware, administratorsRouter);
 router.use("/login", loginRouter);
 
+//teste
+
 // router.use("/students", studentsRouter);
 // router.use("/lockers", lockersRouter);
 // router.use("/administrators", administratorsRouter);
